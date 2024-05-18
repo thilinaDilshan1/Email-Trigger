@@ -1,19 +1,15 @@
 from flask import Flask,request,redirect,render_template,url_for,flash
 import mysql.connector
+import firebase_admin
+from firebase_admin import credentials,firestore
 
 app = Flask(__name__)
 app.secret_key = 'supersecretkey'  # Needed for flashing messages
 
+cred = credentials.Certificate('email-trigger-firebase-firebase-adminsdk-pau9i-290f874908.json')
+firebase_admin.initialize_app(cred)
+db = firestore.client()
 
-def get_db_connection():
-    connection = mysql.connector.connect(
-        host='localhost',
-        port=3308,
-        user='root',
-        password='',
-        database='flask_db'
-    )
-    return connection
 
 @app.route('/')
 def register():
@@ -25,13 +21,14 @@ def get_register():
     name = request.form.get("name")
     password = request.form.get("password")
     
-    # Insert data into the database
-    connection = get_db_connection()
-    cursor = connection.cursor()
-    cursor.execute("INSERT INTO users (name, email, password) VALUES (%s, %s, %s)", (name, email, password))
-    connection.commit()
-    cursor.close()
-    connection.close()
+    # Insert data into the firebase
+    doc_ref = db.collection('users').document(email)
+    doc_ref.set({
+        'name': name,
+        'email': email,
+        'password':  password
+    })
+
 
     # Return the data in the response to display on the web page
     return redirect(url_for('login'))
@@ -43,15 +40,11 @@ def login():
         email = request.form.get('email')
         password = request.form.get('password')
 
-        connection = get_db_connection()
-        cursor = connection.cursor()
-        cursor.execute("SELECT * FROM users WHERE email = %s", (email,))
-        user = cursor.fetchone()
-        cursor.close()
-        connection.close()
-
-        if user and user[3] == password:  # Check password
-            return redirect(url_for('welcome', name=user[1], email=email))
+         # Check if the user exists and the password matches
+        doc_ref = db.collection('users').document(email)
+        doc = doc_ref.get()
+        if doc.exists and doc.to_dict()['password'] == password:
+            return redirect(url_for('welcome', name=doc.to_dict()['name'], email=email))
         else:
             flash('Invalid email or password. Please try again.')
             return redirect(url_for('login'))
