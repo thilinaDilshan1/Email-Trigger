@@ -1,0 +1,108 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap");
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: #1f293a;
+}
+
+.wrapper {
+    width: 420px;
+    background-color: transparent;
+    border: 2px solid rgba(255, 255, 255, 02);
+    border-radius: 10px;
+    padding: 30px 40px;
+    color: #0ef;
+}
+
+input {
+    margin: 5px;
+    width: 100%;
+    height: 50px;
+    background: none;
+    outline: none;
+    border: 2px solid;
+    border-radius: 40px;
+    padding: 20px 45px 20px 20px;
+    font-size: 16px;
+    color: #fff;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+p {
+    text-align: center;
+    margin-top: 10px;
+}
+
+::placeholder {
+    color: #fff
+}
+
+button {
+    padding: 0.8em 0em;
+    width: 100%;
+    background: #0ef;
+    border-radius: 40px;
+    border: 0;
+    color: 1f293a;
+    font-size: 16px;
+    font-weight: 800;
+    font-family: Arial, Helvetica, sans-serif;
+    cursor: pointer;
+}
+
+.signup-link a {
+    font-size: 1em;
+    color: #0ef;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.signup-link {
+    font-size: 1em;
+    color: rgb(255, 255, 255);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.light {
+    background: linear-gradient(135deg, #0ef 0%, #0ef 40%, #ffffff 50%, #0ef 60%, #0ef 100%);
+    background-repeat: no-repeat;
+    background-position: 0px;
+    background-size: 300%;
+}
+
+.light:hover {
+    animation: light 1s;
+    -webkit-animation: light 1s;
+}
+
+@keyframes light {
+    0% {
+        background-position: -600px;
+    }
+    100% {
+        background-position: 0px;
+    }
+}
+
+@-webkit-keyframes light {
+    0% {
+        background-position: -600px;
+    }
+    100% {
+        background-position: 0px;
+    }
+}

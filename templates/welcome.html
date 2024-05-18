@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome</title>
+    <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function() {
+            emailjs.init("jKbCzSNu5TkBvtJxz"); // Replace with your EmailJS user ID
+        })();
+
+        function sendWelcomeEmail(userEmail, userName) {
+            emailjs.send("service_gat3smd", "template_bfvap4d", {
+                to_email: userEmail,
+                to_name: userName,
+                message: "Welcome to our service!"
+            }).then(function(response) {
+                console.log("SUCCESS!", response.status, response.text);
+            }, function(error) {
+                console.log("FAILED...", error);
+            });
+        }
+
+        window.onload = function() {
+            var userEmail = "{{ email }}"; // Pass the email from Flask
+            var userName = "{{name}}"; // Pass the name from Flask
+            sendWelcomeEmail(userEmail, userName);
+        }
+    </script>
+</head>
+
+<body>
+    <h2>Welcome, {{ name }}!</h2>
+</body>
+
+</html>
